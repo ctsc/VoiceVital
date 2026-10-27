@@ -1,154 +1,50 @@
-# Quick Start Guide - Dementia Detection Web App
+# Quick start
 
-Get up and running in 5 minutes! 🚀
+Python 3.11+ and Node.js 18+ are required. This tool is for research only, not clinical diagnosis.
 
-## Prerequisites
+## Backend
 
-- Python 3.11+ installed
-- Node.js 18+ installed
-- (Optional) Docker installed
-
-## Option 1: Local Development (Recommended for Hackathon)
-
-### Step 1: Backend Setup
+From the repo root:
 
 ```bash
-# Navigate to project root
-cd emoryhacks
-
-# Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# Mac/Linux:
-source venv/bin/activate
-
-# Install dependencies
+# Windows: venv\Scripts\activate
+# macOS/Linux: source venv/bin/activate
 pip install -r requirements.txt
-
-# Start the API server
-python -m uvicorn api.main:app --reload
+python -m uvicorn backend.api.main:app --reload --host 0.0.0.0 --port 8001
 ```
 
-Backend will run at `http://localhost:8001`
+API: http://localhost:8001  
+Docs: http://localhost:8001/docs
 
-### Step 2: Frontend Setup (New Terminal)
+Or run `scripts/start_api.bat` (Windows) / `scripts/start_api.sh` (macOS/Linux).
+
+## Frontend
 
 ```bash
-# Navigate to webapp directory
 cd webapp
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-Frontend will run at `http://localhost:3000`
+App: http://localhost:3000
 
-### Step 3: Test It!
+Or run `scripts/start_frontend.bat` / `scripts/start_frontend.sh`.
 
-1. Open `http://localhost:3000` in your browser
-2. Record audio or upload an audio file
-3. Click "Analyze" to get predictions
+## Check it
 
-## Option 2: Docker (Fastest)
+1. Open http://localhost:3000
+2. Upload an MP3 or WAV, or use a patient assessment flow
+3. Confirm a prediction comes back from the API
 
-```bash
-# Build and start everything
-docker-compose up --build
-
-# Backend: http://localhost:8001
-# Frontend: http://localhost:3000
-```
-
-## Option 3: Using Startup Scripts
-
-### Windows:
-```bash
-# Terminal 1 - Backend
-start_api.bat
-
-# Terminal 2 - Frontend
-start_frontend.bat
-```
-
-### Mac/Linux:
-```bash
-# Terminal 1 - Backend
-chmod +x start_api.sh
-./start_api.sh
-
-# Terminal 2 - Frontend
-chmod +x start_frontend.sh
-./start_frontend.sh
-```
-
-## Testing the API
-
-Test the API directly:
+Direct API test:
 
 ```bash
-curl -X POST http://localhost:8001/predict \
-  -F "file=@path/to/your/audio.wav"
+curl -X POST http://localhost:8001/predict -F "file=@path/to/audio.mp3"
 ```
 
-## Training Models (Optional)
+## Models
 
-If you want to train your own models:
+The default artifact is `models/enhanced_gb_combined_features.joblib`. If none is found, the API still starts and returns dummy predictions.
 
-```bash
-cd emoryhacks
-python src/run_training.py
-```
-
-Place trained models in `emoryhacks/models/` directory.
-
-## Troubleshooting
-
-### Backend won't start
-- Check Python version: `python --version` (need 3.11+)
-- Make sure virtual environment is activated
-- Check if port 8001 is already in use
-
-### Frontend won't start
-- Check Node version: `node --version` (need 18+)
-- Delete `node_modules` and run `npm install` again
-- Check if port 3000 is already in use
-
-### API connection errors
-- Make sure backend is running on port 8001
-- Check `webapp/.env` file has correct `VITE_API_URL`
-
-### Model not found warnings
-- This is normal if you haven't trained models yet
-- The API will still work with dummy predictions for demo purposes
-- Train models using the training scripts to get real predictions
-
-## Next Steps
-
-1. **Train Models**: Use your training data to create ML models
-2. **Deploy to AWS**: See `DEPLOYMENT.md` for cloud deployment
-3. **Customize UI**: Edit files in `webapp/src/` to customize the interface
-4. **Add Features**: Extend the API in `emoryhacks/api/main.py`
-
-## Need Help?
-
-- Check `DEPLOYMENT.md` for detailed deployment instructions
-- Check `README_DEPLOYMENT.md` for architecture overview
-- Review API docs at `http://localhost:8001/docs` (when backend is running)
-
-## Important Notes
-
-⚠️ **Research Use Only**: This tool is for research purposes and is NOT a medical device.
-
-🔒 **Privacy**: Audio files are processed in memory and not stored permanently.
-
-📊 **Models**: You need trained models in `emoryhacks/models/` for real predictions.
-
-
-
-
+Retrain from `ml/` after placing audio in `data/raw/`.

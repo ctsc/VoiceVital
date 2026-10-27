@@ -1,6 +1,8 @@
 .venv/
 .venv311/
 venv/
+backend/Lib/
+backend/Scripts/
 **/__pycache__/
 *.pyc
 .DS_Store
