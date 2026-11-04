@@ -19,6 +19,10 @@ build/
 # Node modules (if any)
 **/node_modules/**
 
+# Next.js
+.next/
+out/
+
 # Environment files
 .env
 .env.local
@@ -41,7 +45,9 @@ data/
 data/raw/
 data/interim/
 data/processed/
-models/
+models/*
+!models/.gitkeep
+!models/README.md
 checkpoints/
 *.csv
 *.wav
